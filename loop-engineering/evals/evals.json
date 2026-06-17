@@ -1,0 +1,42 @@
+{
+  "skill_name": "loop-engineering",
+  "notes": "Trigger + execution evals. should_trigger labels included for the Claude Code description optimizer (scripts.run_loop). If the optimizer's loader expects a different trigger-eval shape, reshape per skill-creator/references/schemas.md.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I keep manually re-running my test suite and fixing failures one by one. Set something up so Claude just keeps fixing until my auth tests pass and lint is clean.",
+      "should_trigger": true,
+      "expected_output": "Routes to the simple /goal path (no full scaffold). Produces a /goal command with a checkable condition and a token cap. Does NOT over-engineer with maker/checker for a single-objective task."
+    },
+    {
+      "id": 2,
+      "prompt": "Every Monday I want Claude to check whether we're getting cited in AI answers for our target questions and draft fixes for the ones we're losing. Set that up.",
+      "should_trigger": true,
+      "expected_output": "Builds the full scaffold: weekly cadence, flags that /loop is session-scoped so a Monday cadence needs a Desktop scheduled task or GitHub Actions, sets up maker/checker, a citation state board, an MCP answer-engine connector, and a stage-drafts-only guardrail."
+    },
+    {
+      "id": 3,
+      "prompt": "I want Claude to keep going without me babysitting it on this refactor.",
+      "should_trigger": true,
+      "expected_output": "Triggers on the casual phrasing. Pushes for a verifiable stopping condition first (recipe step 1), since 'refactor' alone is not checkable, then produces a /goal."
+    },
+    {
+      "id": 4,
+      "prompt": "Set up a morning automation that triages yesterday's CI failures, drafts a fix for each, and verifies before anything merges.",
+      "should_trigger": true,
+      "expected_output": "Full scaffold matching the ci-triage example: scheduled discovery, isolated worktree per fix, maker drafts, checker re-runs the suite, ticket fallback, token ceiling."
+    },
+    {
+      "id": 5,
+      "prompt": "What's the difference between a loop and a cron job?",
+      "should_trigger": false,
+      "expected_output": "Conceptual question Claude can answer directly. The skill need not fire; if it does, it should only surface the one-line distinction, not scaffold anything."
+    },
+    {
+      "id": 6,
+      "prompt": "Write me a Python for loop that prints the squares of 1 through 10.",
+      "should_trigger": false,
+      "expected_output": "Plain programming construct. The word 'loop' appears but this is not loop engineering. Skill must NOT fire; Claude writes the for loop directly."
+    }
+  ]
+}
