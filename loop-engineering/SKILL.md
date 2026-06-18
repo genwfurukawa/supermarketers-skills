@@ -115,6 +115,43 @@ That triggers the build recipe below.
 
 ---
 
+## Writing the goal
+
+`/goal` only works if its stopping condition is something a machine can check. This is the
+part most loops get wrong, so this skill writes every goal to one shape.
+
+**The formula.** Every `/goal` this skill produces follows:
+
+> `[count of items] are done AND the checker marks each PASS on [named rubric], capped at [budget]`
+
+The count is verifiable (every prompt, every page, 5 drafts). The quality is not, so it is
+delegated to the checker, which turns "good" into a PASS/FAIL the goal can read. The goal
+never reads "is this good"; it reads "did the checker say PASS."
+
+**Verifiability gate.** Before emitting a `/goal`, confirm the condition can be checked by
+reading real output: a command result, a checker verdict, or a logged count. If it cannot,
+the task is too vague to loop. Narrow it until the finish line is checkable. "Improve our AI
+visibility" is not a goal. "Every target prompt has a logged citation result and every miss
+has a checker-PASS fix" is.
+
+**Bind the goal to the checker, never the maker.** The stopping condition references the
+checker's verdict, not the maker's self-report. The agent that did the work does not get to
+declare itself done.
+
+**Always attach a budget and a bound.** Emit `--tokens` and a turn or time limit with every
+goal. A goal with no exit is a bill with no ceiling.
+
+**Routing.**
+- Single verifiable objective → `/goal` alone.
+- Recurring → wrap `/goal` in `/loop` (or a scheduled task) for the cadence.
+- Parallel items needing isolation → the full maker/checker scaffold, with the goal reading
+  checker PASS.
+
+See `references/goal-grammar.md` for checkable-versus-vague conditions across code, content,
+and citation work, plus how to write the checker rubric the goal leans on.
+
+---
+
 ## The build recipe (full scaffold)
 
 Follow these steps when standing up a real, unattended, multi-agent loop. Do not skip
